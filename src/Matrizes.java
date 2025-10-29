@@ -1,6 +1,5 @@
 public class Matrizes {
     //Matriz adjacente
-/*
     private int[][] A = {
             {0, 1, 0, 0, 0, 0},
             {1, 0, 1, 0, 0, 0},
@@ -9,7 +8,7 @@ public class Matrizes {
             {0, 0, 0, 0, 0, 1},
             {0, 1, 0, 1, 1, 0}
     };
-*/
+
     public final int[][] M_metro = {
             {1, 1, 0, 0, 0, 0},
             {0, 1, 1, 0, 0, 0},
@@ -18,42 +17,42 @@ public class Matrizes {
             {1, 1, 0, 0, 1, 0},
             {0, 0, 0, 0, 1, 1}
     };
-    private final int[][] M_onibus = {
+
+    public final int[][] M_onibus = {
             {0, 1, 0, 0, 0, 1},
-            {1, 1, 0, 0, 1, 0},
-            {0, 0, 1, 0, 0, 0},
-            {0, 0, 0, 1, 1, 0},
-            {0, 0, 1, 0, 0, 1},
-            {1, 1, 0, 1, 1, 0}
+            {1, 0, 0, 1, 0, 0},
+            {0, 0, 0, 1, 0, 0},
+            {0, 1, 1, 0, 0, 1},
+            {0, 0, 0, 0, 0, 1},
+            {1, 0, 0, 1, 1, 0}
     };
 
+    // ==================================================
+    public void propriedades() {
+        System.out.println("Reflexiva?      " + (isReflexive(A) ? "Sim" : "Não"));
+        System.out.println("Simétrica?      " + (isSymmetric(A) ? "Sim" : "Não"));
+        System.out.println("Antissimétrica? " + (isAntisymmetric(A) ? "Sim" : "Não"));
+        System.out.println("Assimétrica?    " + (isAsymmetric(A) ? "Sim" : "Não"));
+        System.out.println("Transitiva?     " + (isTransitive(A) ? "Sim" : "Não"));
+    }
 
-    /*
-        public void propriedades(){
-            System.out.println("Reflexiva?      " + (isReflexive(A)      ? "Sim" : "Não"));
-            System.out.println("Simétrica?      " + (isSymmetric(A)      ? "Sim" : "Não"));
-            System.out.println("Antissimétrica? " + (isAntisymmetric(A)  ? "Sim" : "Não"));
-            System.out.println("Assimétrica?    " + (isAsymmetric(A)     ? "Sim" : "Não"));
-            System.out.println("Transitiva?     " + (isTransitive(A)     ? "Sim" : "Não"));
-        }
-    */
-    public boolean isReflexive(int[][] M){
+    public boolean isReflexive(int[][] M) {
         for (int i = 0; i < M.length; i++) {
             if (M[i][i] != 1) return false;
         }
         return true;
     }
 
-    public boolean isSymmetric(int[][] M){
+    public boolean isSymmetric(int[][] M) {
         for (int i = 0; i < M.length; i++) {
-            for (int j = 0; j < M.length; j++){
+            for (int j = 0; j < M.length; j++) {
                 if (M[i][j] != M[j][i]) return false;
             }
         }
         return true;
     }
 
-    public boolean isAntisymmetric(int[][] M){
+    public boolean isAntisymmetric(int[][] M) {
         for (int i = 0; i < M.length; i++) {
             for (int j = 0; j < M.length; j++) {
                 if (i != j && M[i][j] == 1 && M[j][i] == 1) {
@@ -64,21 +63,19 @@ public class Matrizes {
         return true;
     }
 
-    public boolean isAsymmetric(int[][] M){
-        for (int i = 0; i < M.length; i++){
+    public boolean isAsymmetric(int[][] M) {
+        for (int i = 0; i < M.length; i++) {
             if (M[i][i] == 1) return false;
         }
-
         for (int i = 0; i < M.length; i++) {
             for (int j = 0; j < M.length; j++) {
                 if (M[i][j] == 1 && M[j][i] == 1) return false;
             }
         }
-
         return true;
     }
 
-    public  boolean isTransitive(int[][] M){
+    public boolean isTransitive(int[][] M) {
         for (int i = 0; i < M.length; i++) {
             for (int j = 0; j < M.length; j++) {
                 if (M[i][j] == 1) {
@@ -90,8 +87,8 @@ public class Matrizes {
         }
         return true;
     }
-//====================================================================================================================
 
+    // ==================================================
     //só para ter uma cópia que possa ser alterada
     private int[][] deepCopy(int[][] original) {
         int n = original.length;
@@ -103,18 +100,16 @@ public class Matrizes {
     }
 
     public int[][] closureReflexive(int[][] M) {
-        int n = M.length;
         int[][] Mr = deepCopy(M);
-
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < M.length; i++) {
             Mr[i][i] = 1;
         }
         return Mr;
     }
+
     public int[][] closureTransitive(int[][] M) {
         int n = M.length;
         int[][] Mt = deepCopy(M);
-
         for (int k = 0; k < n; k++) {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
@@ -126,10 +121,10 @@ public class Matrizes {
         }
         return Mt;
     }
+
     public int[][] closureSymmetric(int[][] M) {
         int n = M.length;
         int[][] Ms = deepCopy(M);
-
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (M[i][j] == 1) {
@@ -139,6 +134,26 @@ public class Matrizes {
         }
         return Ms;
     }
+
+    // ==================================================
+    public int[][] composicao(int[][] R1, int[][] R2) {
+        int n = R1.length;
+        int[][] comp = new int[n][n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < n; k++) {
+                    if (R1[i][k] == 1 && R2[k][j] == 1) {
+                        comp[i][j] = 1;
+                        break;
+                    }
+                }
+            }
+        }
+        return comp;
+    }
+
+    // ==================================================
     public void printMatrix(String title, int[][] M) {
         System.out.println("\n" + title + ":");
         String[] stations = {"Av", "C", "Pç", "Pq", "Sh", "T"};
@@ -155,5 +170,6 @@ public class Matrizes {
             System.out.println(" |");
         }
     }
-
 }
+
+
