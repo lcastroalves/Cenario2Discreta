@@ -1,15 +1,20 @@
 public class Main {
     public static void main(String[] args) {
         Matrizes matriz = new Matrizes();
-//        matriz.propriedades();
 
-        int[][] Ms = matriz.closureSymmetric(matriz.M_metro);
-        matriz .printMatrix("MS", Ms);
+        // Propriedades
+        matriz.propriedades();
 
-        int[][] Mt = matriz.closureTransitive(matriz.M_metro);
-        matriz.printMatrix("MT", Mt);
+        // Fechamentos
+        matriz.printMatrix("Fechamento Simétrico", matriz.closureSymmetric(matriz.M_metro));
+        matriz.printMatrix("Fechamento Transitivo", matriz.closureTransitive(matriz.M_metro));
+        matriz.printMatrix("Fechamento Reflexivo", matriz.closureReflexive(matriz.M_metro));
 
-        int[][] Mr = matriz.closureReflexive(matriz.M_metro);
-        matriz.printMatrix("MR", Mr);
+        // Composições
+        int[][] comp = matriz.composicao(matriz.M_metro, matriz.M_onibus);
+
+
+        matriz.printMatrix("Composição M_metro ∘ M_onibus", comp);
+
     }
 }
